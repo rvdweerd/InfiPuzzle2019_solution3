@@ -5,7 +5,8 @@ In tegenstelling tot oplossingen #1 en #2 wordt nu niet eerst de volledige graph
 Dat is het mooie aan Dijkstra, dat is niet nodig om korste pad naar ieder willekeurig punt te vinden.
 
 Zie comments in main() </br>
-[Screenshot van oplossing](/InfiPuzzle2019_solution3.png)
+[Screenshot van oplossing](/InfiPuzzle2019_solution3.png) </br>
+[De schoonheid van Dijkstra's idee in de code](/DijkstraAtWork.png)
 
 
 Eerdere oplossingen:
