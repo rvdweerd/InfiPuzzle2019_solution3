@@ -166,27 +166,23 @@ void VindAlleBereikbareSchoorstenen(Node* start, std::map<int, int>& hoogtes)
 		}
 	}
 }
+
 std::vector<Arc*> VindKortstePad(Node* start, Node* finish, std::map<int, int>& hoogtes)
 {
-	// Dit is de hoofdfunctie van de oplossing die een Dijkstra Shortest Path methode implementeert met drie hulp datastructuren:
-	// ==> Een vector die opgebouwd wordt met de kortste paden, totdat het einddoel bereikt wordt
+	// Inits van support data structures
 	std::vector<Arc*> path;
-	// ==> Een priority queue die zorgt dat het algoritme "greedy" wordt (het briljante inzicht van Dijkstra)
 	std::priority_queue< std::vector<Arc*>, std::vector<std::vector<Arc*>>, GroterePadKosten> queue;
-	// ==> Een map die bijhoudt welke Nodes als "gefixt" zijn, d.w.z.: waarvan we gaandeweg het algo te weten komen wat de kortste weg hiernaartoe is
 	std::map<std::string, int> fixed;
 	
 	// Main loop
-	// We verplaatsten de startpositie sprong per sprong totdat we de gezochte schoorsteen bereiken
 	while (start->name != finish->name)
 	{
-		if (fixed.find(start->name) == fixed.end()) // als het startpunt niet eerder is vastgepind, dan weten we dat deze per definitie de kortste route is
+		if (fixed.find(start->name) == fixed.end()) 
 		{
 			fixed.insert({ start->name,KostenVanPad(path) });
-			VindAlleBereikbareSchoorstenen(start, hoogtes); // Zoek nu alle bereikbare nieuwe Nodes vanaf de huidige positie en voeg die Arcs toe aan start
+			VindAlleBereikbareSchoorstenen(start, hoogtes); 
 			for (Arc* a : start->arcs)
 			{
-				//if (fixed.find(a->finish->name) == fixed.end()) // Als we de gevonden nieuwe positie niet eerder gevonden hebben (met een korter pad), voeg dan toe aan de queue
 				{
 					path.push_back(a);
 					queue.push(path);
@@ -196,24 +192,45 @@ std::vector<Arc*> VindKortstePad(Node* start, Node* finish, std::map<int, int>& 
 		}
 		if (queue.empty())
 		{
-			// Als gedurende het algoritme de queue leeg raakt, betekent dat dat er geen verbinding is van start naar finish, we retourneren dan een lege vector
 			path.clear();
 			return path;
 		}
 		path = queue.top(); queue.pop();
 		start = path.back()->finish;
 	}
-	// Presenteer interessante vastgelegde informatie
-	std::cout << "Gedurende uitvoering van het Dijkstra algoritme is vastgesteld \nmet welke minimale energie de volgende punten kunnnen worden bereikt:\n";
-	std::cout << "\n== START ===\n";
-	for (auto f : fixed)
-	{
-		std::cout << f.first << ": " << f.second <<'\n';
-	}
-	std::cout << "== END ===\n";
-	std::cout << "\nDruk [Enter] om door te gaan..";
+
 	return path;
 }
+void Delete(Node* node, int& nArcs, int& nNodes)
+{
+	std::queue<Node*> queue;
+	queue.push(node);
+	std::set<std::string> visited;
+	while (!queue.empty())
+	{
+		Node* currentNode = queue.front(); queue.pop();
+		if (visited.find(Hash(currentNode->position)) == visited.end())
+		{
+			for (Arc* arc : currentNode->arcs)
+			{
+				Node* nextNode = arc->finish;
+				if (visited.find(Hash(nextNode->position)) == visited.end())
+				{				
+					queue.push(nextNode);
+					delete arc;
+					nArcs++;
+					arc = nullptr;
+				}
+			}
+			visited.insert(Hash(currentNode->position));
+			delete currentNode;
+			nNodes++;
+			currentNode = nullptr;
+		}
+	}
+	return;
+}
+
 void Infi2()
 {
 	// aoc.infi.nl 2019, deel 2
@@ -241,6 +258,11 @@ void Infi2()
 	}
 	std::cout << "== END ===\n";
 	std::cout << "\nDruk [Enter] om te sluiten..";
+	std::cin.get();
+
+	// Ruim geheugen op (old school garbage collection, of ik moet smart pointers (c++14) gebruiken
+	int nArcs = 0; int nNodes = 0;
+	Delete(start, nArcs, nNodes); std::cout << nNodes << " Nodes and " << nArcs << " Arcs deleted. End.";
 	std::cin.get();
 }
 
