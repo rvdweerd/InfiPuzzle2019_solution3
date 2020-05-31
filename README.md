@@ -17,4 +17,6 @@ Eerdere oplossingen:
 2. Bouwt graph met alle unieke routes (nodes en directed arcs); waarop Dijkstra wordt toegepast -> [repo oplossing 2](https://github.com/rvdweerd/InfiPuzzle2019_solution2.git)
 
 Gepresenteerd bij review:
-![Slide0](/Dia0.png) </br>
+![Slide0](Dia0.PNG) </br>
+![Slide0](Dia1.PNG) </br>
+![Slide0](Dia2.PNG) </br>
