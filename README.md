@@ -15,3 +15,6 @@ Eerdere oplossingen:
 1. Bouwt tree met alle unieke routes (nodes met ontkoppelde vertakkingen); zeer kostbaar maar ontsluit alle mogelijke info ->
 [repo oplossing 1](https://github.com/rvdweerd/InfiPuzzle2019.git)
 2. Bouwt graph met alle unieke routes (nodes en directed arcs); waarop Dijkstra wordt toegepast -> [repo oplossing 2](https://github.com/rvdweerd/InfiPuzzle2019_solution2.git)
+
+Gepresenteerd bij review:
+![Slide0](/Dia0.png) </br>
